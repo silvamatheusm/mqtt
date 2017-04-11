@@ -45,7 +45,7 @@ client.on('connect', function () {
 
 })
 
-//message enviada: {"microcontrolador":"edison", "temp":50, "umidade":25 }
+//message enviada: {"microcontrolador":"edison", "temp":37, "umidade":29 }
  
 client.on('message', function (topic, message) {//quando enviar/receber mensagem
    // message is Buffer 

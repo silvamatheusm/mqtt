@@ -34,7 +34,62 @@ module.exports = function(app){
 	    				throw err;
 	   				}
 				});
-			}
+			},
+		ligaG: function(req,res){
+				var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+				client.on('connect', function () {
+			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+			  	client.publish('galileu', '1');
+			  	console.log('\nLed Galileu ligado');
+				});
+				res.redirect('/');
+			},
+		desligaG : function(req,res){
+			var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+				client.on('connect', function () {
+			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+			  	client.publish('galileu', '0');
+			  	console.log('\nLed Galileu Desligado');
+				});
+				res.redirect('/');
+		},
+		ligaR: function(req,res){
+				var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+				client.on('connect', function () {
+			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+			  	client.publish('raspberry', '1');
+			  	console.log('\nLed Raspberry ligado');
+				});
+				res.redirect('/');
+			},
+		desligaR : function(req,res){
+			var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+				client.on('connect', function () {
+			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+			  	client.publish('raspberry', '0');
+			  	console.log('\nLed Raspberry Desligado');
+				});
+				res.redirect('/');
+		},
+		ligaE: function(req,res){
+				var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+				client.on('connect', function () {
+			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+			  	client.publish('edison', '1');
+			  	console.log('\nLed Edison ligado');
+				});
+				res.redirect('/');
+			},
+		desligaE : function(req,res){
+			var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+				client.on('connect', function () {
+			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+			  	client.publish('edison', '0');
+			  	console.log('\nLed Edison Desligado');
+				});
+				res.redirect('/');
+		}
+
 		}
 	
 	return HomeController;
