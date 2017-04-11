@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>IoT</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href='/css/style.css' rel="stylesheet">
+	<link href="/css/bootstrap-aux.css" rel="stylesheet">
+</head>
+<body>
+ 	<div class="container">
+	 <div class="page-header">
+        <h1>Lab IoT</h1>
+      <div class="container">
+      </div>
+       
+
+	<h3 class="sub-header">Raspberry</h3>
+	<section>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+
+			<th> Temperatura</th>
+			<th> Umidade</th>
+			<th> Data</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<% rasps.forEach(function(r) { %>
+				<tr>
+					<td> <%- r.temp %> </td>
+					<td> <%- r.umidade %> </td>
+					<td> <%- r.data%> </td>
+				
+				</tr>
+			<% }) %>
+		</tbody>
+	</table>
+
+	<h3 class="sub-header">Edison</h3>
+	</section>
+	<section>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+
+			<th> Temperatura</th>
+			<th> Umidade</th>
+			<th> Data</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<% edisons.forEach(function(e) { %>
+				<tr>
+					<td> <%- e.temp %> </td>
+					<td> <%- e.umidade %> </td>
+					<td> <%- e.data%> </td>
+				</tr>
+			<% }) %>
+		</tbody>
+	</table>
+	</section>
+
+	<h3 class="sub-header">Galileu</h3>
+	</section>
+	<section>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+
+			<th> Temperatura</th>
+			<th> Umidade</th>
+			<th> Data</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<% galileus.forEach(function(g) { %>
+				<tr>
+					<td> <%- g.temp %> </td>
+					<td> <%- g.umidade %> </td>
+					<td> <%- g.data%> </td>
+				</tr>
+			<% }) %>
+		</tbody>
+	</table>
+	</section>
+
+	 <footer>
+        <p>&copy; Inatel</p>
+      </footer>
+</body>
+</html>
