@@ -8,9 +8,17 @@ module.exports = function(app){
 			
 				var rasps;
 				var edisons;
+				var dataR = new Array();
+				var dataE = new Array();
+				var dataG = new Array();
 				raspberry.find({}, function(err, docs) {//docs é um array dos objetos da collection raspberry
 					if (!err){ 
-	    				rasps = JSON.parse(JSON.stringify(docs));//copia array de objetos para variavel rasps   
+	    				rasps = JSON.parse(JSON.stringify(docs));//copia array de objetos para variavel rasps
+	    				rasps.forEach(function(d){
+	    					var str1 = d.data;
+							var res = str1.split(" ", 3);
+							dataR.push(res);
+	    				});  
 	   				} else{
 	   					console.log('Erro na index');
 	    				throw err;
@@ -19,7 +27,12 @@ module.exports = function(app){
 
 				edison.find({}, function(err, docs) {//docs é um array dos objetos da collection edison
 					if (!err){ 
-	    				edisons = JSON.parse(JSON.stringify(docs));	//copia array de objetos para variavel edison  
+	    				edisons = JSON.parse(JSON.stringify(docs));	//copia array de objetos para variavel edison
+	    				rasps.forEach(function(d){
+	    					var str1 = d.data;
+							var res = str1.split(" ", 3);
+							dataE.push(res);
+	    				});  
 	   				} else{
 	   					console.log('Erro na index');
 	    				throw err;
@@ -28,7 +41,14 @@ module.exports = function(app){
 				galileu.find({}, function(err, docs) {//docs é um array dos objetos da collection galileu
 					if (!err){ 
 						//enviando os arrays para a view home/index.ejs
-	    				response.render('home/index',{rasps:rasps,edisons:edisons, galileus:docs});
+						docs.forEach(function(d){
+							var str1 = d.data;
+							var res = str1.split(" ", 3);
+							dataG.push(res);
+						})
+						response.render('home/index',{rasps:rasps,edisons:edisons, galileus:docs});
+	    				//response.render('home/index',{rasps:rasps,edisons:edisons, galileus:docs,
+	    											//  dataG:dataG, dataE: dataE, dataR: dataR});
 	   				} else{
 	   					console.log('Erro na index');
 	    				throw err;
@@ -91,6 +111,16 @@ module.exports = function(app){
 		}
 
 		}
+		/*
+		var media = function(microcontrolers){
+			var dias[];
+			microcontrolers.forEach(function(m){
+				var dia = m.data.split(" ",3);
+				if(dia[2] == 10){
+					alert('Dia 10');
+				}
+			})
+		};*/
 	
 	return HomeController;
 }

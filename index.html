@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <title>Chart.js - criando gráficos com a biblioteca Chart.js</title>
+
+    <script src="node_modules/chart.js/Chart.min.js"></script>
+
+    <style type="text/css">
+
+    *{
+        font-family: calibri;        
+    }
+
+    .box {
+        margin: 0px auto;
+        width: 70%;
+    }
+
+    .box-chart {
+        width: 100%;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    </style>  
+
+    <script type="text/javascript">
+        var randomnb = function(){ return Math.round(Math.random()*300)};
+    </script>  
+
+</head>
+
+<body>    
+
+    <div class="box">
+
+       
+
+        <h2>Gráfico Linha</h2>
+        <small>Dados gerados com função javascript para números randômicos até 300.</small>
+        
+        <div class="box-chart">
+
+            <canvas id="GraficoLine" style="width:100%;"></canvas>
+
+            <script type="text/javascript">
+
+                var options = {
+                    responsive:true
+                };
+
+                var data = {
+                    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro", "teste"],
+                    datasets: [
+                        {
+                            label: "Temperatura",
+                            fillColor: "rgba(220,220,220,0.2)",//fundo
+                            strokeColor: "rgba(220,220,220,1)",//cor linha
+                            pointColor: "rgba(220,220,220,1)",//fundo ponto
+                            pointStrokeColor: "#fff",//borda ponto
+                            pointHighlightFill: "#fff",//qnd passa , muda cor ponto
+                            pointHighlightStroke: "rgba(220,220,220,1)",//qnd passa , muda cor ponto
+                            data: [randomnb(), randomnb(), randomnb(), randomnb(), randomnb(), randomnb(), randomnb(), randomnb(), randomnb(), randomnb(), randomnb(), randomnb(),randomnb(),randomnb(),randomnb()]
+                        },
+                        {
+                            label: "Umidade",
+                            fillColor: "rgba(151,187,205,0.2)",
+                            strokeColor: "rgba(151,187,205,1)",
+                            pointColor: "rgba(151,187,205,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(151,187,205,1)",
+                            data: [28, 48, 40, 19, 86, 27, 90, 200, 87, 20, 50, 20,22,32,33]
+                        }
+                    ]
+                };               
+                
+                window.onload = function(){
+
+                    var ctx = document.getElementById("GraficoLine").getContext("2d");
+                    var LineChart = new Chart(ctx).Line(data, options);
+                }  
+            </script>
+
+        </div>
+    
+    </div>
+</body>
+
+</html>
