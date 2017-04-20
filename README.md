@@ -14,7 +14,7 @@ O servidor recebe dados de microcontroladores, como temperatura e umidade, e arm
 
 <a name="notas"></a>
 ## Pré-requisitos 
-É recomendado que se tenha o mínimo de conhecimento em programação web, [JSON](http://www.json.org/json-pt.html), [node.js](https://nodejs.org/en/) e protocolo [MQTT](https://blog.butecopensource.org/mqtt-parte-1-o-que-e-mqtt/). Este tutorial tem como objetivo explicar o funcionamento do deste projeto.
+É recomendado que se tenha o mínimo de conhecimento em programação web, [JSON](http://www.json.org/json-pt.html), [node.js](https://nodejs.org/en/) e protocolo [MQTT](https://blog.butecopensource.org/mqtt-parte-1-o-que-e-mqtt/). Este tutorial tem como objetivo explicar o funcionamento deste projeto.
 
 <a name="install"></a>
 ## Instalação
@@ -76,7 +76,7 @@ O mongoDB salva as informações no formato JSON, e o mongoose usa modelos e esq
 	    console.log('Conectado ao mongodb');
 	});
 ```
-Configuramos para acessar um banco de dados chamado 'banco'(se não existir, será criado), e passamos algumas preferências,salvas na variavel options. EStabelecemos a conexão com `mongoose.connect`, que recebe como parâmetro o endereço do banco mongoDB e as opções desejadas e, caso ocorra algum erro, informamos no console que houve um erro ao se conectar.
+Configuramos para acessar um banco de dados chamado 'banco'(se não existir, será criado), e passamos algumas preferências,salvas na variavel options. Estabelecemos a conexão com `mongoose.connect`, que recebe como parâmetro o endereço do banco mongoDB e as opções desejadas e, caso ocorra algum erro, informamos no console que houve um erro ao se conectar.
 
 ```js
 	var Schema = require('mongoose').Schema;
@@ -154,21 +154,21 @@ Essa segunda parte do projeto será feita no diretório `myapp`. O arquivo prini
 	  , replset: { rs_name: 'myReplicaSetName' }
 	};
 	global.db        = mongoose.connect(uri,options,function(erro){//estabelecendo conexao com bd
-					if(erro)
-					   console.log('Problema ao conectar o mongodb');
-					else
-						console.log('Conectado ao mongodb');
-					});
+			   if(erro)
+			   	console.log('Problema ao conectar o mongodb');
+			   else
+				console.log('Conectado ao mongodb');
+			   });
 
-	var load 		= require('express-load');
+	var load 	 = require('express-load');
 
-	var app 		= express();
+	var app 	 = express();
 ```
 
 Configuramos os módulos a ser utilizados, como o próprio express e o mongoose,e iniciamos o express com a variavel `app`, onde todas as funcionalidades do framework são habilitadas. A variavel `db` é global, sendo utilizada por todos os arquivos do projeto.
 
 ```js
-	...
+	//...
 		load('models')
 		.then('controllers')
 		.then('routes')
@@ -252,8 +252,97 @@ Já dentro de `galileo.find()`, usamos a função `response.render`, para mandar
 
 <a name="html"></a>
 ## Mostrando dados numa tabela HTML
-##Views
-No diretório `Views/home`, temos o arquivo `index.ejs`, que é a onde os dados serão exibidos. É utilizado __bootstrap__ para estilo da página.
+## Views
+Usamos o templete engine [EJS](http://ejs.co/), para facilitar a integração entre HTML e Javascript.
+No diretório `Views/home`, temos o arquivo `index.ejs`, que é onde os dados serão exibidos.É utilizado __bootstrap__ para estilo da página.
+
+
+```html
+<table class="table table-striped">
+	<thead>
+		<tr>
+
+		<th> Temperatura</th>
+		<th> Umidade</th>
+		<th> Data</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		<% rasps.forEach(function(r) { %>
+			<tr>
+
+			<td> <%- r.temp %> </td>
+			<td> <%- r.umidade %> </td>
+			<td> <%- r.data%> </td>
+			
+			</tr>
+		<% }) %>
+	</tbody>
+</table>
+```
+A tabela tem três colunas, temperatura, umidade e data, correspondendo aos atributos recebidos via `JSON` e salvos no banco de dados.
+Como foi passado pelo Controller, temos disponîveis as variáveis `rasps, edisons e galileos`, contendo os arrays com as informações do banco de dados. Usamos o comando `rasps.forEach(function(r)` para varrer o array de `rasps`, sendo que é retornado em `r` o objeto iterado, contendo sua temperatura, umidade e data. Apenas com o comando `<td> <%- r.temp %> </td>`, já é passado para a linha da tabela os valores desejados, tudo isso graças ao EJS.
+
+É feito este procedimento outras duas vezes, para as variaveis `edisons` e `galileos`.
+
+
+<a name="publish"></a>
+## Publicando a partir de botões
+
+Agora já assinamos um tópico via MQTT, guardamos as informações num banco de dados mongoDB e mostramos ao usuário numa tabela.  Como exemplo, para publicar em um tópico, serão usados botões 'LigaLed/DesligaLed", que publicarão em um tópico espefícifo, como por exemplo, 'tópico raspberry', oa números 1 e 0, sendo que o primeiro seria um comando para ligar o led do raspberry, e 0 para desligar. 
+
+Logo abaixo das tabelas com as informações do raspberry, temos:
+
+```html
+	<form action="/ligaRasp" method="get">
+		<button type="submit" class="btn btn-sm btn-success">Liga Led</button>
+		<button type="submit" class="btn btn-sm btn-danger" formaction="/desligaRasp"   >Desliga Led</button>
+	</form>
+
+```
+Se pressionado o botão `Liga Led`, iremos acionar a action `ligaRasp` pelo método get. Já se pressionado o botão `Desliga Led`, a action acionada será a `desligaRasp` também pelo método get, devido ao campo `formaction` estar preenchido.
+
+## Routes
+Dentro de routes, temos o arquivo `home.js`, que faz o roteamento do nosso servidor.
+
+```js
+	module.exports = function(app){
+		var home = app.controllers.home;
+		app.get('/', home.index);//chama a ação index em controllers/home
+		app.get('/ligaRasp', home.ligaR);
+		app.get('/desligaRasp', home.desligaR);
+	}
+
+```
+A variável `home` recebe `HomeController` vinda do controller, através do `app` do Express. Por padrão, caso o endereço seja '/', a action acionada será a index. Já quando pressionamos o botão 'Liga Led' do raspberry, será acionado a action `ligaR` do controller, como veremos a seguir.
+Em `controllers/home.js`, logo após a action `index`, temos:
+
+```js
+	ligaR: function(req,res){
+		var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+		client.on('connect', function () {
+			client.publish('raspberry', '1');
+			console.log('\nLed Raspberry ligado');
+		});
+		res.redirect('/');
+	},
+	desligaR : function(req,res){
+		var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
+		client.on('connect', function () {
+			  client.publish('raspberry', '0');
+			  console.log('\nLed Raspberry Desligado');
+		});
+		res.redirect('/');
+	}
+```
+A action `ligaR` faz requerimento novamente da biblioteca mqtt, assim como fizemos na primeira parte do projeto, estabelecendo assim a conexão com o broker `iot.eclipse.org`. A diferença está na função `client.on('connect')`, pois agora configuraremos para publicar em um tópico, através do método `client.publish`, e passando como parametro o tópico a ser assinado e a mensagem '1', que acenderia o led. Depois, mostramos no terminal uma mensagem confirmando que a operação de publicação foi confirmada,e recirecionamos a página. Da mesma forma, é feito para a action `desligaR`, mas mandamos a mensagem 'o' para apagar o led.
+
+No projeto também constam mais quatro botões, que são os `Liga/Desliga Led` do galileo e do edison.
+
+@Inatel
+
+
 
 
 

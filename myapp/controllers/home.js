@@ -8,17 +8,11 @@ module.exports = function(app){
 			
 				var rasps;
 				var edisons;
-				var dataR = new Array();
-				var dataE = new Array();
-				var dataG = new Array();
+			
 				raspberry.find({}, function(err, docs) {//docs é um array dos objetos da collection raspberry
 					if (!err){ 
 	    				rasps = JSON.parse(JSON.stringify(docs));//copia array de objetos para variavel rasps
-	    				rasps.forEach(function(d){
-	    					var str1 = d.data;
-							var res = str1.split(" ", 3);
-							dataR.push(res);
-	    				});  
+	    			  
 	   				} else{
 	   					console.log('Erro na index');
 	    				throw err;
@@ -28,11 +22,6 @@ module.exports = function(app){
 				edison.find({}, function(err, docs) {//docs é um array dos objetos da collection edison
 					if (!err){ 
 	    				edisons = JSON.parse(JSON.stringify(docs));	//copia array de objetos para variavel edison
-	    				rasps.forEach(function(d){
-	    					var str1 = d.data;
-							var res = str1.split(" ", 3);
-							dataE.push(res);
-	    				});  
 	   				} else{
 	   					console.log('Erro na index');
 	    				throw err;
@@ -40,15 +29,7 @@ module.exports = function(app){
 				});
 				galileo.find({}, function(err, docs) {//docs é um array dos objetos da collection galileu
 					if (!err){ 
-						//enviando os arrays para a view home/index.ejs
-						docs.forEach(function(d){
-							var str1 = d.data;
-							var res = str1.split(" ", 3);
-							dataG.push(res);
-						})
 						response.render('home/index',{rasps:rasps,edisons:edisons, galileos:docs});
-	    				//response.render('home/index',{rasps:rasps,edisons:edisons, galileus:docs,
-	    											//  dataG:dataG, dataE: dataE, dataR: dataR});
 	   				} else{
 	   					console.log('Erro na index');
 	    				throw err;
@@ -57,26 +38,23 @@ module.exports = function(app){
 			},
 		ligaG: function(req,res){
 				var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
-				client.on('connect', function () {
-			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
-			  	client.publish('galileu', '1');
+				client.on('connect', function () {			 
+			  	client.publish('galileo', '1');
 			  	console.log('\nLed Galileo ligado');
 				});
 				res.redirect('/');
 			},
 		desligaG : function(req,res){
 			var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
-				client.on('connect', function () {
-			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
-			  	client.publish('galileu', '0');
+				client.on('connect', function () {			  
+			  	client.publish('galileo', '0');
 			  	console.log('\nLed Galileo Desligado');
 				});
 				res.redirect('/');
 		},
 		ligaR: function(req,res){
 				var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
-				client.on('connect', function () {
-			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+				client.on('connect', function () {			  
 			  	client.publish('raspberry', '1');
 			  	console.log('\nLed Raspberry ligado');
 				});
@@ -84,8 +62,7 @@ module.exports = function(app){
 			},
 		desligaR : function(req,res){
 			var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
-				client.on('connect', function () {
-			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+				client.on('connect', function () {			 
 			  	client.publish('raspberry', '0');
 			  	console.log('\nLed Raspberry Desligado');
 				});
@@ -93,8 +70,7 @@ module.exports = function(app){
 		},
 		ligaE: function(req,res){
 				var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
-				client.on('connect', function () {
-			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+				client.on('connect', function () {			
 			  	client.publish('edison', '1');
 			  	console.log('\nLed Edison ligado');
 				});
@@ -102,8 +78,7 @@ module.exports = function(app){
 			},
 		desligaE : function(req,res){
 			var client  = require('mqtt').connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
-				client.on('connect', function () {
-			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
+				client.on('connect', function () {			  
 			  	client.publish('edison', '0');
 			  	console.log('\nLed Edison Desligado');
 				});
@@ -111,16 +86,7 @@ module.exports = function(app){
 		}
 
 		}
-		/*
-		var media = function(microcontrolers){
-			var dias[];
-			microcontrolers.forEach(function(m){
-				var dia = m.data.split(" ",3);
-				if(dia[2] == 10){
-					alert('Dia 10');
-				}
-			})
-		};*/
+
 	
 	return HomeController;
 }

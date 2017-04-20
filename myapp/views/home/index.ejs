@@ -11,12 +11,12 @@
  	<div class="container">
 	 <div class="page-header">
          <h1 class="blog-title">Lab IoT</h1>
-      
       </div>
        
 
 	<h3 class="sub-header">Raspberry</h3>
-	<section>
+
+	
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -30,6 +30,7 @@
 		<tbody>
 			<% rasps.forEach(function(r) { %>
 				<tr>
+				
 					<td> <%- r.temp %> </td>
 					<td> <%- r.umidade %> </td>
 					<td> <%- r.data%> </td>
@@ -45,8 +46,9 @@
 	</form>
 
 	<h3 class="sub-header">Edison</h3>
-	</section>
-	<section>
+	
+
+
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -67,7 +69,7 @@
 			<% }) %>
 		</tbody>
 	</table>
-	</section>
+
 
 	<form action="/ligaEdison" method="get">
 		<button type="submit" class="btn btn-sm btn-success">Liga Led</button>
@@ -75,7 +77,8 @@
 	</form>
 
 	<h3 class="sub-header">Galileo</h3>
-	</section>
+	
+
 	<section>
 	<table class="table table-striped">
 		<thead>
@@ -98,15 +101,18 @@
 		</tbody>
 	</table>
 
-	</section>
+
 	<form action="/ligaGalileo" method="get">
 		<button type="submit" class="btn btn-sm btn-success">Liga Led</button>
 		<button type="submit" class="btn btn-sm btn-danger" formaction="/desligaGalileo">Desliga Led</button>
 	</form>
+	</section>
 
 	<br>
 	 <footer>
         <p>&copy; Inatel</p>
       </footer>
+
+    </div>
 </body>
 </html>

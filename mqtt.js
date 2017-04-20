@@ -32,12 +32,12 @@ var edison = Schema({
 });
 var edison = mongoose.model('edison',edison);
 
-var galileu = Schema({
+var galileo = Schema({
   temp : Number,
   umidade: Number,
   data : String
 });
-var galileu = mongoose.model('galileu',galileu);
+var galileo = mongoose.model('galileo',galileo);
 
 
 client.on('connect', function () {
@@ -71,8 +71,8 @@ client.on('message', function (topic, message) {//quando enviar/receber mensagem
         data: data.toString()
       });
       salvar(modelo);
-    }else if(obj.microcontrolador == 'galileu') {
-      var modelo = new galileu({
+    }else if(obj.microcontrolador == 'galileo') {
+      var modelo = new galileo({
         temp: obj.temp,
         umidade: obj.umidade,
         data: data.toString()
