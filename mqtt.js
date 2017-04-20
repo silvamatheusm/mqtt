@@ -1,6 +1,7 @@
 var mqtt = require('mqtt')
 var client  = mqtt.connect('mqtt://iot.eclipse.org',[{ host: 'localhost', port: 1883 }])
-var mongoose = require('mongoose'), uri = 'mongodb://localhost/banco'; //usando mongoose ao conectar bd 'banco'
+var mongoose = require('mongoose');
+var uri = 'mongodb://localhost/banco'; //usando mongoose ao conectar bd 'banco'
 var options = { db: { native_parser: true }  
   , server: { poolSize: 5 }//até 5 acessos multiplos ao banco de dados
   , replset: { rs_name: 'myReplicaSetName' }

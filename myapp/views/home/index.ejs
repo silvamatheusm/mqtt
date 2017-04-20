@@ -74,7 +74,7 @@
 		<button type="submit" class="btn btn-sm btn-danger" formaction="/desligaEdison"   >Desliga Led</button>
 	</form>
 
-	<h3 class="sub-header">Galileu</h3>
+	<h3 class="sub-header">Galileo</h3>
 	</section>
 	<section>
 	<table class="table table-striped">
@@ -88,7 +88,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% galileus.forEach(function(g) { %>
+			<% galileos.forEach(function(g) { %>
 				<tr>
 					<td> <%- g.temp %> </td>
 					<td> <%- g.umidade %> </td>
@@ -99,9 +99,9 @@
 	</table>
 
 	</section>
-	<form action="/ligaGalileu" method="get">
+	<form action="/ligaGalileo" method="get">
 		<button type="submit" class="btn btn-sm btn-success">Liga Led</button>
-		<button type="submit" class="btn btn-sm btn-danger" formaction="/desligaGalileu">Desliga Led</button>
+		<button type="submit" class="btn btn-sm btn-danger" formaction="/desligaGalileo">Desliga Led</button>
 	</form>
 
 	<br>

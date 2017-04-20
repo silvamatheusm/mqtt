@@ -1,7 +1,7 @@
 module.exports = function(app){
 	var raspberry = app.models.raspberry;
 	var edison = app.models.edison;
-	var galileu = app.models.galileu;
+	var galileo = app.models.galileo;
 
 	var HomeController = {
 		index: function(request,response){
@@ -38,7 +38,7 @@ module.exports = function(app){
 	    				throw err;
 	   				}
 				});
-				galileu.find({}, function(err, docs) {//docs é um array dos objetos da collection galileu
+				galileo.find({}, function(err, docs) {//docs é um array dos objetos da collection galileu
 					if (!err){ 
 						//enviando os arrays para a view home/index.ejs
 						docs.forEach(function(d){
@@ -46,7 +46,7 @@ module.exports = function(app){
 							var res = str1.split(" ", 3);
 							dataG.push(res);
 						})
-						response.render('home/index',{rasps:rasps,edisons:edisons, galileus:docs});
+						response.render('home/index',{rasps:rasps,edisons:edisons, galileos:docs});
 	    				//response.render('home/index',{rasps:rasps,edisons:edisons, galileus:docs,
 	    											//  dataG:dataG, dataE: dataE, dataR: dataR});
 	   				} else{
@@ -60,7 +60,7 @@ module.exports = function(app){
 				client.on('connect', function () {
 			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
 			  	client.publish('galileu', '1');
-			  	console.log('\nLed Galileu ligado');
+			  	console.log('\nLed Galileo ligado');
 				});
 				res.redirect('/');
 			},
@@ -69,7 +69,7 @@ module.exports = function(app){
 				client.on('connect', function () {
 			  	//client.subscribe('microcontroladores')//assinando topico 'microcontroladores'
 			  	client.publish('galileu', '0');
-			  	console.log('\nLed Galileu Desligado');
+			  	console.log('\nLed Galileo Desligado');
 				});
 				res.redirect('/');
 		},
