@@ -20,7 +20,7 @@ O servidor recebe dados de microcontroladores, como temperatura e umidade, e arm
 ## Instalação
 Instale o nodejs, que pode ser baixado [aqui](https://nodejs.org/en/). Baixe o instalador e execute-o normalmente. Se não ocorrer problemas, abra seu terminal e digite `node -v`para ver a versão instalada.
 
-Clone este projeto para uma pasta de sua preferência. No terminal, digite:
+Baixe e instale o [git](https://git-scm.com/downloads).Clone este projeto para uma pasta de sua preferência. No terminal, digite:
 	```
 	  git clone https://github.com/silvamatheusm/mqtt.git
 	```
