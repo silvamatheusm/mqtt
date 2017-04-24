@@ -56,7 +56,7 @@ Aqui conectamos ao broker e assinamos o tópico 'microcontroladores'. Você pode
    	// message is Buffer 
   	var mensagem = message.toString();//converte a mensagem buffer em string
 ```
-Passando como argumento 'message' para a função 'on' de client, acessaremos a função todas as vezes que uma mensagem for publica no tópico que assinamos. Recebemos como parâmetro `topic` e `message`, sendo o primeiro a string do tópico assinado e o segundo um buffer com a mensagem. Para transformar numa string, usamos o metodo `toString()` e salvamos na variavel mensagem. Essa é a mensagem que será salva no banco de dados.
+Passando como argumento 'message' para a função 'on' de client, acessaremos a função todas as vezes que uma mensagem for publica no tópico que assinamos. Recebemos como parâmetro `topic` e `message`, sendo o primeiro a string do tópico assinado e o segundo um buffer com a mensagem. Para transformar numa string, usamos o metodo `toString()` e salvamos na variavel `mensagem`. Essa é a mensagem que será salva no banco de dados.
 
 <a name="save"></a>
 ## Salvando num banco de dados
@@ -76,7 +76,7 @@ O mongoDB salva as informações no formato JSON, e o mongoose usa modelos e esq
 	    console.log('Conectado ao mongodb');
 	});
 ```
-Configuramos para acessar um banco de dados chamado 'banco'(se não existir, será criado), e passamos algumas preferências,salvas na variavel options. Estabelecemos a conexão com `mongoose.connect`, que recebe como parâmetro o endereço do banco mongoDB e as opções desejadas e, caso ocorra algum erro, informamos no console que houve um erro ao se conectar.
+Configuramos para acessar um banco de dados chamado 'banco'(se não existir, será criado), e passamos algumas preferências, salvas na variavel options. Estabelecemos a conexão com `mongoose.connect`, que recebe como parâmetro o endereço do banco mongoDB e as opções desejadas e, caso ocorra algum erro, informamos no console que houve um erro ao se conectar.
 
 ```js
 	var Schema = require('mongoose').Schema;
@@ -89,7 +89,7 @@ Configuramos para acessar um banco de dados chamado 'banco'(se não existir, ser
 	  });
 	var raspberry = mongoose.model('raspberry',raspberry);//raspberry é a colection
 ```
-A variavel `Schema` salva a estrutura de modelos do mongoose, que é usada para crair nosso próprios modelos. Exemplificamos o modelo `raspberry`, que tem três 'atributos': temperatura, umidade e data. Para concluii o modelo, usamos o método `mongoose.model` para salvar o método e já dar nome a nossa collection, que também será chamada de raspberry.
+A variavel `Schema` salva a estrutura de modelos do mongoose, que é usada para criar nosso próprios modelos. Exemplificamos o modelo `raspberry`, que tem três 'atributos': temperatura, umidade e data. Para concluir o modelo, usamos o método `mongoose.model` para salvar o método e já dar nome a nossa collection, que também será chamada de raspberry.
 Também fizemos o mesmo com os esquemas `galileo` e `edison`.
 
 ```js
@@ -129,16 +129,16 @@ Também fizemos o mesmo com os esquemas `galileo` e `edison`.
 	    });
 	}
 ```
-Receberemos a mensagem no formato JSON, contendo o nome do microcontrolador, a temperatura e a umidade, e salvaremos a data e hora atual. Voltando ao método `client.on`, criamos a variavel `data`, que salva a data e hora atual. Usamos a função `IsJsonString` para validar a mensagem recebida. Caso seja válida, transformamos a mensagem num objeto chamado `obj` com o metodo `JSON.parse`. Usamos uma lógica simples com `if` para saber qual microcontrolador está mandando as informações e em qual collection será salvo o objeto. Criamos uma variavel `modelo`, instanciamos o modelo que será utilizado e passamos para a função `salvar`, que finalmente salva no banco de dados.
+Receberemos a mensagem no formato JSON, contendo o nome do microcontrolador, a temperatura e a umidade, e salvaremos a data e hora atuais. Voltando ao método `client.on`, criamos a variavel `data`, que salva a data e hora atuais. Usamos a função `IsJsonString` para validar a mensagem recebida. Caso seja válida, transformamos a mensagem num objeto chamado `obj` com o metodo `JSON.parse`. Usamos uma lógica simples com `if` para saber qual microcontrolador está mandando as informações e em qual collection será salvo o objeto. Criamos uma variavel `modelo`, instanciamos o modelo que será utilizado e passamos para a função `salvar`, que finalmente salva no banco de dados.
 
-Isso encerra o arquivo __mqtt.js__, onde recebemos a informação do tópico 'microcontroladores' e salvamos no banco de dados em três collections diferentes: raspberry, galileo e edison.
+Isso encerra o arquivo __mqtt.js__, onde recebemos a informação do tópico 'microcontroladores' e salvamos no banco de dados em três collections diferentes: raspberry, galileo e edison. Para executar, digite `node mqtt.js` no terminal.
 
 <a name="express"></a>
 
 ## Framework Express
 Para a segunda parte do projeto, usaremos o [Framework Express](http://expressjs.com/), que facilita o desenvolvimento de servidores com NODE.JS. O Express baseia-se no modelo MVC(Model-View-Controller) e MVR(Model-View-Route). Teremos o diretório 'Views', com as paginas a serem exibidas com ejs, que é uma engine de visualização, o diretório 'Controllers', com a lógica para ler os arquivos do banco de dados, 'Models', com os modelos para o banco de dados e 'Routes', com as rotas do servidor.
 
-Essa segunda parte do projeto será feita no diretório `myapp`. O arquivo prinipal é o `app.js`:
+Essa segunda parte do projeto será feita no diretório `myapp`. O arquivo principal é o `app.js`:
 
 ```js
 	var express 	 = require('express');
@@ -165,7 +165,7 @@ Essa segunda parte do projeto será feita no diretório `myapp`. O arquivo prini
 	var app 	 = express();
 ```
 
-Configuramos os módulos a ser utilizados, como o próprio express e o mongoose,e iniciamos o express com a variavel `app`, onde todas as funcionalidades do framework são habilitadas. A variavel `db` é global, sendo utilizada por todos os arquivos do projeto.
+Configuramos os módulos a serem utilizados, como o próprio express e o mongoose, e iniciamos o express com a variavel `app`, onde todas as funcionalidades do framework são habilitadas. A variavel `db` é global, sendo utilizada por todos os arquivos do projeto.
 
 ```js
 	//...
@@ -198,7 +198,7 @@ No diretório Models, temos os arquivos `edison.js`, `galileo.js` e `raspberry.j
 	};
 ```
 
-Criamos o modelo, exatamente como criamos o modelo anteriormente para salvar no banco de dados, e retornamos o modelo com a variavel `db`.
+Criamos o modelo, exatamente como criamos o modelo anteriormente em `mqtt.js` para salvar no banco de dados, e retornamos o modelo com a variavel `db`.
 Do mesmo modeo, são feitos os models raspberry e galileo.
 
 ## Controllers
@@ -290,7 +290,7 @@ Como foi passado pelo Controller, temos disponîveis as variáveis `rasps, ediso
 <a name="publish"></a>
 ## Publicando a partir de botões
 
-Agora já assinamos um tópico via MQTT, guardamos as informações num banco de dados mongoDB e mostramos ao usuário numa tabela.  Como exemplo, para publicar em um tópico, serão usados botões 'LigaLed/DesligaLed", que publicarão em um tópico espefícifo, como por exemplo, 'tópico raspberry', oa números 1 e 0, sendo que o primeiro seria um comando para ligar o led do raspberry, e 0 para desligar. 
+Agora já assinamos um tópico via MQTT, guardamos as informações num banco de dados mongoDB e mostramos ao usuário numa tabela.  Como exemplo, para publicar em um tópico, serão usados botões 'LigaLed/DesligaLed", que publicarão em um tópico espefícifo, como por exemplo, 'tópico raspberry', os números 1 e 0, sendo que o primeiro seria um comando para ligar o led do raspberry, e 0 para desligar. 
 
 Logo abaixo das tabelas com as informações do raspberry, temos:
 
@@ -336,13 +336,9 @@ Em `controllers/home.js`, logo após a action `index`, temos:
 		res.redirect('/');
 	}
 ```
-A action `ligaR` faz requerimento novamente da biblioteca mqtt, assim como fizemos na primeira parte do projeto, estabelecendo assim a conexão com o broker `iot.eclipse.org`. A diferença está na função `client.on('connect')`, pois agora configuraremos para publicar em um tópico, através do método `client.publish`, e passando como parametro o tópico a ser assinado e a mensagem '1', que acenderia o led. Depois, mostramos no terminal uma mensagem confirmando que a operação de publicação foi confirmada,e recirecionamos a página. Da mesma forma, é feito para a action `desligaR`, mas mandamos a mensagem 'o' para apagar o led.
+A action `ligaR` faz requerimento novamente da biblioteca mqtt, assim como fizemos na primeira parte do projeto, estabelecendo assim a conexão com o broker `iot.eclipse.org`. A diferença está na função `client.on('connect')`, pois agora configuraremos para publicar em um tópico, através do método `client.publish`, e passando como parametro o tópico a ser assinado e a mensagem '1', que acenderia o led. Depois, mostramos no terminal uma mensagem confirmando que a operação de publicação foi confirmada,e redirecionamos a página. Da mesma forma, é feito para a action `desligaR`, mas mandamos a mensagem 'o' para apagar o led.
 
 No projeto também constam mais quatro botões, que são os `Liga/Desliga Led` do galileo e do edison.
+Para executar, digite `node app.js` dentro de `myapp`.
 
-@Inatel
-
-
-
-
-
+©Inatel
